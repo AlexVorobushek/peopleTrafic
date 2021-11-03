@@ -1,15 +1,32 @@
-from DetectorClass import DetectorClass
+from MapClass import MapClass
 from CameraClass import CameraClass
+from DetectorClass import DetectorClass
+from DBClass import DBClass
 
-camera = CameraClass(cameraID=0)
-detector = DetectorClass(
-    output_image_path='images/img_detected.jpg'
-)
+import time
 
-print(
-    detector.detect(
-        camera.get_image()
-    )
-)
+print('ACTIVATING...')
+# определение
+camera = CameraClass.activate()
+detector = DetectorClass.activate()
+visibility_map = MapClass.activate()
+db = DBClass.activate()
+
+def new_imprinting():
+    picture = camera.get_image()
+
+    points = detector.detect(picture)
+    for point in points:
+        visibility_map.add_point_at_map(
+            visibility_map.projectPointOntoMap(point)
+        )
+    
+    db.new_imprinting(map=visibility_map)
+
+print('START')
+# while True:
+new_imprinting()
+print('IMPINTED')
+# time.sleep(10*60)
 
 camera.close()
