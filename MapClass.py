@@ -3,8 +3,9 @@ from PIL import Image, ImageDraw, ImageFont
 import json
 
 from TrigonometryClass import Trigonometry as tr
+from DBClass import DBClass
 
-from params import camera_params
+camera_params = DBClass.activate().get_camera_params()
 
 
 class MapClass:
@@ -13,16 +14,16 @@ class MapClass:
         beta = self.camera_params['vertical_viewing_angle']
         alpha = self.camera_params['tilt_angle'] - beta / 2
 
-        self.widht = int((tr.cos(alpha)*camera_params['captureWidth'])/tr.cos(alpha+beta))
+        self.widht = int((tr.cos(alpha)*camera_params['capture_width'])/tr.cos(alpha+beta))
         self.height = int(((tr.cos(alpha)*tr.tan(alpha+beta)-tr.sin(alpha)) /
-                       (2*tr.sin(beta/2)))*camera_params['captureHeight'])
+                       (2*tr.sin(beta/2)))*camera_params['capture_height'])
         self.peoples = []
     
     def projectPointOntoMap(self, point: tuple) -> tuple:
         beta = self.camera_params['vertical_viewing_angle']
         alpha = self.camera_params['tilt_angle'] - beta / 2
-        captureHeight = self.camera_params['captureHeight']
-        captureWidth = self.camera_params['captureWidth']
+        captureHeight = self.camera_params['capture_height']
+        captureWidth = self.camera_params['capture_width']
 
         pointY = point[1]
         pointX = point[0]
@@ -35,8 +36,8 @@ class MapClass:
         return coors
     
     def draw(self):
-        camera_capture_width = self.camera_params['captureWidth']
-        camera_capture_heigth = self.camera_params['captureHeight']
+        camera_capture_width = self.camera_params['capture_width']
+        camera_capture_heigth = self.camera_params['capture_height']
 
         img = Image.new("RGB", (self.widht, self.height), (50, 50, 50))
         d = ImageDraw.Draw(img,)

@@ -21,7 +21,7 @@ def new_imprinting():
             visibility_map.projectPointOntoMap(point)
         )
     
-    db.new_imprinting(map=visibility_map)
+    db.new_record(map=visibility_map)
 
 print('START')
 # while True:

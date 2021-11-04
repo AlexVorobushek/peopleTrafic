@@ -2,6 +2,7 @@ from imageai.Detection import ObjectDetection
 import os
 import requests
 
+from local_params import detector_params
 
 MODEL_NAME = 'resnet50_coco_best_v2.1.0.h5'
 MODEL_YD_DIRECTORY = 'PeopleTrafic'
@@ -10,11 +11,11 @@ MODEL_YD_DIRECTORY = 'PeopleTrafic'
 class DetectorClass:
     def __init__(self, model_directory='', output_image_path='img_detected.jpg') -> None:
         self.model_path = os.path.join(model_directory, MODEL_NAME)
-        self.create_detector()
+        # self.create_detector()
         if not os.path.exists(self.model_path):
             self.download_model()
         
-        # self.create_detector()
+        self.create_detector()
 
         self.output_image_path = output_image_path
 
@@ -39,6 +40,7 @@ class DetectorClass:
         self.model.loadModel()
 
     def download_model(self):
+        print('START INSTALLING MODEL...')
         token = 'AQAAAAAqbTNeAAd5R4qqZEksGU-emzIVjSUAerM'
         headers = {
             "Accept": "application/json",
@@ -58,9 +60,8 @@ class DetectorClass:
             for i in download.iter_content(1024):
                 out_stream.write(i)
         
-        print('installed')
+        print('INSTALLED')
 
     @staticmethod
     def activate():
-        from params import detector_params
         return DetectorClass(**detector_params)
