@@ -1,5 +1,4 @@
 from textwrap import fill
-from PIL import Image, ImageDraw, ImageFont
 import json
 
 from TrigonometryClass import Trigonometry as tr
@@ -34,20 +33,6 @@ class MapClass:
 
         coors = int(newPointX), int(newPointY)
         return coors
-    
-    def draw(self):
-        camera_capture_width = self.camera_params['capture_width']
-        camera_capture_heigth = self.camera_params['capture_height']
-
-        img = Image.new("RGB", (self.widht, self.height), (50, 50, 50))
-        d = ImageDraw.Draw(img,)
-        d.polygon(((0, 0), (self.widht, 0), self.projectPointOntoMap((camera_capture_width, camera_capture_heigth)), self.projectPointOntoMap((0, camera_capture_heigth))), fill=(100, 100, 100))
-
-        for x, y in self.peoples:
-            # d.point((x, y), (255, 255, 255))
-            d.ellipse((x-3, y-3, x+3, y+3), (255, 255, 255))
-
-        img.save('images/map.jpg')
     
     def __str__(self) -> str:
         return json.dumps(self.peoples)
