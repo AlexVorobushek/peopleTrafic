@@ -24,9 +24,9 @@ def new_imprinting():
     db.new_record(map=visibility_map)
 
 print('START')
-# while True:
-new_imprinting()
-print('IMPINTED')
-# time.sleep(10*60)
+while True:
+    new_imprinting()
+    print('IMPINTED')
+    # time.sleep(10*60)
 
 camera.close()
