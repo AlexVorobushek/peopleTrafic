@@ -37,8 +37,10 @@ class MapClass:
     def __str__(self) -> str:
         return json.dumps(self.peoples)
     
-    def add_point_at_map(self, point):
-        self.peoples.append(point)
+    def update_points_at_map(self, *points):
+        self.peoples = []
+        for point in points:
+            self.peoples.append(self.projectPointOntoMap(point))
 
     @staticmethod
     def activate():
